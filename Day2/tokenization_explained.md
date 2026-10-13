@@ -34,14 +34,6 @@ Love the black hoodie, super comfy!
 
 A model may split it like this:
 
-Love | the | black | hood | ie | comma | super | comf | y | mark
+Love | the | black | hood | ie | comma | super | comf | y | exclamation-mark
 
 Small words stay whole. Words like hoodie and comfy split because the model stores their parts, not the full form.
-
-## Why this matters for your Day 2 code
-
-1. Cost. Most tools charge by token count, not word count.
-2. Limits. Each model accepts only a fixed number of tokens per request. Long chats cross that limit and lose early text.
-3. Output shape. If you ask for Sentiment plus Summary, that needs more tokens than a one word reply. Plan for it.
-
-Short tip: keep system rules short, give two or three clear examples, and send short user inputs. You get clear results and use fewer tokens.
