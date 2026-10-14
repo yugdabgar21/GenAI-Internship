@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dare Generator</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f4f4f2; color: #1c1c1c; margin: 0; padding: 24px 16px; }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.5px; }
+  p.sub { color: #666; margin: 0 0 20px; font-size: 14px; }
+  .card { background: #fff; border: 1px solid #e3e3e0; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  label { display: block; font-size: 12px; font-weight: 600; margin: 12px 0 4px; color: #555; }
+  input, select { width: 100%; padding: 10px; font-size: 15px; border: 1px solid #d4d4d0; border-radius: 8px; background: #fff; color: #1c1c1c; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  button.go { width: 100%; margin-top: 16px; padding: 12px; font-size: 16px; font-weight: 700; background: #1c1c1c; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+  button.go:active { transform: scale(0.98); }
+  button.go:disabled { opacity: 0.5; cursor: wait; }
+  .dare { background: #fff; border: 1px solid #e3e3e0; border-left: 4px solid #1c1c1c; border-radius: 8px; padding: 12px 14px; margin: 10px 0; display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .dare span { flex: 1; }
+  .copy { border: 1px solid #d4d4d0; background: #f9f9f8; border-radius: 6px; padding: 4px 10px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+  #status { color: #666; font-size: 14px; margin: 12px 0; }
+  #error { color: #b3261e; font-size: 14px; margin: 12px 0; }
+  small.hint { color: #888; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Dare Generator</h1>
+  <p class="sub">Harmless dares for game nights. Hinglish + Gujlish ready.</p>
+
+  <div class="card">
+    <label for="key">Mistral API Key (paste from .env, stays in this tab only)</label>
+    <input type="password" id="key" placeholder="paste key here" autocomplete="off">
+    <small class="hint">Key is sent straight to Mistral from your browser. Nothing is saved.</small>
+
+    <div class="row">
+      <div>
+        <label for="people">Friends</label>
+        <input type="number" id="people" value="4" min="2" max="20">
+      </div>
+      <div>
+        <label for="count">How many dares</label>
+        <input type="number" id="count" value="3" min="1" max="5">
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="mood">Mood</label>
+        <select id="mood">
+          <option value="funny">funny</option>
+          <option value="chill">chill</option>
+          <option value="filmy">filmy</option>
+        </select>
+      </div>
+      <div>
+        <label for="lang">Language</label>
+        <select id="lang">
+          <option value="hinglish">hinglish</option>
+          <option value="gujlish">gujlish</option>
+          <option value="english">english</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="go" id="go" onclick="generate()">Generate Dares</button>
+  </div>
+
+  <div id="status"></div>
+  <div id="error"></div>
+  <div id="out"></div>
+</div>
+
+<script>
+function systemPrompt(lang) {
+  let base = "You are a fun party host for game nights. " +
+    "Generate ONLY harmless, safe, family-friendly dares. " +
+    "Rules: no physical danger, no alcohol, no personal contact, " +
+    "no embarrassment, house items only. " +
+    "Output a numbered list only, one dare per line.";
+  if (lang === "hinglish") {
+    base += ' Write in Hinglish (Hindi in Roman script). Example: "Apne best filmy dialogue ko full action ke saath bolo."';
+  } else if (lang === "gujlish") {
+    base += ' Write ONLY in Gujlish (Gujarati in Roman script, no Hindi words). Use words like tara, tamne, karo, batav, hasav. Examples: "Tara best Garba step 30 second ma kari ne batav." "Room ma rakhela koi pan 3 vastu upadi ne tenu funny Gujarati naam aapo."';
+  }
+  return base;
+}
+
+async function generate() {
+  const key = document.getElementById("key").value.trim();
+  const people = document.getElementById("people").value || "4";
+  const mood = document.getElementById("mood").value;
+  const lang = document.getElementById("lang").value;
+  let count = parseInt(document.getElementById("count").value, 10) || 3;
+  count = Math.min(5, Math.max(1, count));
+
+  const status = document.getElementById("status");
+  const error = document.getElementById("error");
+  const out = document.getElementById("out");
+  error.textContent = "";
+  out.innerHTML = "";
+
+  if (!key) {
+    error.textContent = "Paste your Mistral API key first (from Day3/.env).";
+    return;
+  }
+
+  const btn = document.getElementById("go");
+  btn.disabled = true;
+  status.textContent = "Soch rahe hai... dares ban rahe hai.";
+
+  try {
+    const res = await fetch("https://api.mistral.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + key
+      },
+      body: JSON.stringify({
+        model: "mistral-small-latest",
+        temperature: 0.9,
+        max_tokens: 400,
+        messages: [
+          { role: "system", content: systemPrompt(lang) },
+          { role: "user", content: "Group of " + people + " people, mood " + mood + ", language " + lang + ". Give " + count + " dares." }
+        ]
+      })
+    });
+
+    if (!res.ok) {
+      throw new Error("Mistral error " + res.status + ". Key galat ho sakti hai.");
+    }
+
+    const data = await res.json();
+    const text = (data.choices && data.choices[0] && data.choices[0].message.content) || "";
+    status.textContent = "";
+
+    const lines = text.split("\n").map(function (l) { return l.trim(); }).filter(function (l) { return l.length > 0; });
+    if (lines.length === 0) {
+      error.textContent = "Kuch nahi mila. Dobara try karo.";
+      return;
+    }
+
+    lines.forEach(function (line) {
+      const div = document.createElement("div");
+      div.className = "dare";
+      const clean = line.replace(/^<[^>]+>/g, "");
+      const s = document.createElement("span");
+      s.textContent = clean;
+      const b = document.createElement("button");
+      b.className = "copy";
+      b.textContent = "Copy";
+      b.onclick = function () { navigator.clipboard.writeText(clean); b.textContent = "Done"; };
+      div.appendChild(s);
+      div.appendChild(b);
+      out.appendChild(div);
+    });
+  } catch (e) {
+    status.textContent = "";
+    error.textContent = e.message || "Kuch gadbad hui. Dobara try karo.";
+  } finally {
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
