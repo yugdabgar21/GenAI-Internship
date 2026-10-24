@@ -8,19 +8,19 @@ I started with basic model calls and moved to prompt design for daily use cases.
 
 ## Navigate the days
 
-Folders on GitHub sort alphabetically, so use this table to walk the work in order.
+Day folders use two-digit numbers from Day01 to Day09, so the GitHub file browser keeps them in order.
 
 | Day | Folder | Work |
 | --- | --- | --- |
-| Day 1 | [Day1](./Day1) | Mistral quickstart, tokens and transformers notes |
-| Day 2 | [Day2](./Day2) | Sentiment prompts and tokenization notes |
-| Day 3 | [Day3](./Day3) | Hinglish and Gujlish dare generator |
-| Day 4 | [Day4](./Day4) | Task1 support reply, Task2 product description |
-| Day 5 | [Day5](./Day5) | Task3 email classifier, Task4 meeting actions |
-| Day 6 | [Day6](./Day6) | Task5 social post, Task6 code explainer |
-| Day 7 | [Day7](./Day7) | Task7 translator, Task8 cover letter |
-| Day 8 | [Day8](./Day8) | Task9 moderation, Task10 interview questions |
-| Day 9 | [Day9](./Day9) | Task11 review sentiment, Task12 quiz generator |
+| Day 1 | [Day01](./Day01) | Mistral quickstart, tokens and transformers notes |
+| Day 2 | [Day02](./Day02) | Sentiment prompts and tokenization notes |
+| Day 3 | [Day03](./Day03) | Hinglish and Gujlish dare generator |
+| Day 4 | [Day04](./Day04) | Task1 support reply, Task2 product description |
+| Day 5 | [Day05](./Day05) | Task3 email classifier, Task4 meeting actions |
+| Day 6 | [Day06](./Day06) | Task5 social post, Task6 code explainer |
+| Day 7 | [Day07](./Day07) | Task7 translator, Task8 cover letter |
+| Day 8 | [Day08](./Day08) | Task9 moderation, Task10 interview questions |
+| Day 9 | [Day09](./Day09) | Task11 review sentiment, Task12 quiz generator |
 | Day 10 | [Day10](./Day10) | JSON review parser |
 | Day 11 | [Day11](./Day11) | Streaming demo and flashcard generator |
 | Day 12 | [Day12](./Day12) | Customer support dashboard, resume screener, AI content studio |
