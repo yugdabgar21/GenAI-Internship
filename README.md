@@ -24,6 +24,7 @@ Day folders use two-digit numbers from Day01 to Day09, so the GitHub file browse
 | Day 10 | [Day10](./Day10) | JSON review parser |
 | Day 11 | [Day11](./Day11) | Streaming demo and flashcard generator |
 | Day 12 | [Day12](./Day12) | Customer support dashboard, resume screener, AI content studio |
+| Day 13 | [Day13](./Day13) | ChromaDB and Milvus vector store RAG demos with library policy documents |
 
 Every day folder runs on its own. Put a `.env` file inside the folder with `MISTRAL_API_KEY` before running a script. The `.env` files stay out of git.
 
