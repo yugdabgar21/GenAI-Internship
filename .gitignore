@@ -1,0 +1,14 @@
+# Local time sheet (not for the repo)
+Internship_Daily_Time_Sheet_Yug_cleared.docx
+
+# Python
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Vector store files
+.chroma/
+chroma.sqlite3
+*.db
