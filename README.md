@@ -8,7 +8,7 @@ I started with basic model calls and moved to prompt design for daily use cases.
 
 ## Navigate the days
 
-Day folders use two-digit numbers from Day01 to Day14, so the GitHub file browser keeps them in order.
+Day folders use two-digit numbers from Day01 to Day15, so the GitHub file browser keeps them in order.
 
 | Day | Folder | Work |
 | --- | --- | --- |
@@ -26,6 +26,7 @@ Day folders use two-digit numbers from Day01 to Day14, so the GitHub file browse
 | Day 12 | [Day12](./Day12) | Customer support dashboard, resume screener, AI content studio |
 | Day 13 | [Day13](./Day13) | ChromaDB and Milvus vector store RAG demos with library policy documents |
 | Day 14 | [Day14](./Day14) | Chat with PDF: pypdf text extraction, ChromaDB retrieval, Mistral grounded answers |
+| Day 15 | [Day15](./Day15) | Company knowledge assistant and customer support doc bot: RAG with citations, fallback, and chat memory |
 
 Every day folder runs on its own. Put a `.env` file inside the folder with `MISTRAL_API_KEY` before running a script. The `.env` files stay out of git.
 
