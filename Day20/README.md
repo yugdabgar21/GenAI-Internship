@@ -29,7 +29,7 @@ The loop stops when the model returns a message with no tool calls. It also stop
 
 ## Files
 
-- `ai.py`: menu data, tools, dispatcher and the agent loop
+- `cafe_agent.py`: menu data, tools, dispatcher and the agent loop
 - `requirements.txt`: dependencies
 - `.env.example`: copy this to `.env` and add your key
 - `.gitignore`: keeps `.env` out of git
@@ -49,7 +49,7 @@ MISTRAL_API_KEY=your_key_here
 Start the bot:
 
 ```bash
-python ai.py
+python cafe_agent.py
 ```
 
 Type `exit`, `quit` or `stop` to end the chat.
@@ -65,7 +65,7 @@ Type `exit`, `quit` or `stop` to end the chat.
 
 ## Notes
 
-- The menu is a hardcoded dict in `ai.py`. Change it to use your own items and prices.
+- The menu is a hardcoded dict in `cafe_agent.py`. Change it to use your own items and prices.
 - The system prompt tells the model to use tools for menu and price questions, so it does not guess numbers.
 - A single prompt can trigger several tools across several loop rounds.
 - If the model keeps asking for tools after 5 rounds, the agent stops with a short message.
