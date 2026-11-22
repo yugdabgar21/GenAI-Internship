@@ -27,6 +27,9 @@ AVAILABLE_MODELS = [
 MAX_TOOL_ROUNDS = 5
 DAILY_TRANSFER_LIMIT = 50000.0
 
+# Pending destructive action awaiting UI confirmation (used by the Streamlit app).
+_pending_action = None
+
 
 # --------------------------------
 # DEMO DATA
@@ -198,7 +201,7 @@ def list_transactions(account_id, n=5):
     return "\n".join(lines)
 
 
-def block_card(card_id):
+def block_card(card_id, confirmed=False):
     if not isinstance(card_id, str) or not card_id.strip():
         return "Please provide a card id."
 
@@ -212,18 +215,22 @@ def block_card(card_id):
     if card["status"] == "blocked":
         return "Card " + card_id + " is already blocked."
 
-    if not confirm_action("Confirm blocking card " + card_id + "? (yes/no): "):
-        return "Card block cancelled. Card " + card_id + " is still active."
+    if not confirmed:
+        global _pending_action
+        _pending_action = {"type": "block_card", "card_id": card_id}
+        if not confirm_action("Confirm blocking card " + card_id + "? (yes/no): "):
+            _pending_action = None
+            return "Card block cancelled. Card " + card_id + " is still active."
+        _pending_action = None
 
     card["status"] = "blocked"
-
     return (
         "Card " + card_id + " blocked successfully for account "
         + mask_account_number(card["account_id"]) + "."
     )
 
 
-def transfer_money(from_account, to_account, amount):
+def transfer_money(from_account, to_account, amount, confirmed=False):
     from_account, error = _validate_account(from_account)
     if error:
         return error
@@ -260,12 +267,22 @@ def transfer_money(from_account, to_account, amount):
     if accounts[from_account]["balance"] < amount:
         return "Insufficient balance in account " + mask_account_number(from_account) + "."
 
-    if not confirm_action(
-        "Confirm transfer of Rs " + f"{amount:.2f}"
-        + " from " + mask_account_number(from_account)
-        + " to " + mask_account_number(to_account) + "? (yes/no): "
-    ):
-        return "Transfer cancelled. No money was moved."
+    if not confirmed:
+        global _pending_action
+        _pending_action = {
+            "type": "transfer_money",
+            "from_account": from_account,
+            "to_account": to_account,
+            "amount": amount,
+        }
+        if not confirm_action(
+            "Confirm transfer of Rs " + f"{amount:.2f}"
+            + " from " + mask_account_number(from_account)
+            + " to " + mask_account_number(to_account) + "? (yes/no): "
+        ):
+            _pending_action = None
+            return "Transfer cancelled. No money was moved."
+        _pending_action = None
 
     accounts[from_account]["balance"] -= amount
     accounts[to_account]["balance"] += amount

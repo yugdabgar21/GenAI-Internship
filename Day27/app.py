@@ -57,6 +57,20 @@ if not api_key:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if "pending_confirmation" not in st.session_state:
+    st.session_state.pending_confirmation = None
+
+
+def _streamlit_confirm(prompt):
+    st.session_state.pending_confirmation = {
+        "prompt": prompt,
+        "action": getattr(agents, "_pending_action", None),
+    }
+    return False
+
+
+agents.confirm_action = _streamlit_confirm
+
 
 def save_feedback(question, answer, label, feedback):
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "feedback.csv")
@@ -122,11 +136,60 @@ for index, message in enumerate(st.session_state.messages):
                 st.caption(f"Feedback recorded: {feedback}")
 
 
+# ---------------- pending confirmation ----------------
+
+pending = st.session_state.get("pending_confirmation")
+if pending and pending.get("action"):
+    action = pending["action"]
+    st.warning(pending.get("prompt", "Confirmation required."))
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Confirm", key="confirm_pending"):
+            if action.get("type") == "block_card":
+                result = agents.block_card(action.get("card_id"), confirmed=True)
+            elif action.get("type") == "transfer_money":
+                result = agents.transfer_money(
+                    action.get("from_account"),
+                    action.get("to_account"),
+                    action.get("amount"),
+                    confirmed=True,
+                )
+            else:
+                result = "Unknown pending action."
+
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content": result,
+                    "label": action.get("type", "general"),
+                    "tool_calls": [],
+                    "feedback": None,
+                }
+            )
+            st.session_state.pending_confirmation = None
+            st.rerun()
+    with col2:
+        if st.button("Cancel", key="cancel_pending"):
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content": "Action cancelled.",
+                    "label": "general",
+                    "tool_calls": [],
+                    "feedback": None,
+                }
+            )
+            st.session_state.pending_confirmation = None
+            st.rerun()
+
+
 # ---------------- handle new input ----------------
 
 prompt = st.chat_input("Type a customer question...")
 
 if prompt:
+    st.session_state.pending_confirmation = None
     st.session_state.messages.append(
         {"role": "user", "content": prompt, "label": None, "tool_calls": [], "feedback": None}
     )
