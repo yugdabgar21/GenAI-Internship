@@ -29,7 +29,7 @@ Day folders use two-digit numbers from Day01 to Day24, so the GitHub file browse
 | Day 15 | [Day15](./Day15) | Company knowledge assistant and customer support doc bot: RAG with citations, fallback, and chat memory |
 | Day 16 | [Day16](./Day16) | Chat with PDF: pypdf extraction, ChromaDB index for multiple files, Mistral answers with sources |
 | Day 17 | [Day17](./Day17) | Tool calling bot: no-argument timetable tool, Mistral tool loop, answers grounded in the tool result |
-| Day 18 | - | Placeholder, to be added |
+| Day 18 | [Day18](./Day18) | Chat memory app: session-state history, last 10 messages, two argument-taking timetable tools |
 | Day 19 | [Day19](./Day19) | Cafe menu tool-calling bot and Streamlit Tavily stationery bot |
 | Day 20 | [Day20](./Day20) | Cafe AI agent with a think, act, observe tool loop |
 | Day 21 | [Day21](./Day21) | Single AI agent (LinkedIn post) and sequential multi-agent (product review) |
