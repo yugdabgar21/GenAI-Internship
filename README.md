@@ -8,7 +8,7 @@ I started with basic model calls and moved to prompt design for daily use cases.
 
 ## Navigate the days
 
-Day folders use two-digit numbers from Day01 to Day24, so the GitHub file browser keeps them in order.
+Day folders use two-digit numbers from Day01 to Day25, so the GitHub file browser keeps them in order.
 
 | Day | Folder | Work |
 | --- | --- | --- |
@@ -36,6 +36,7 @@ Day folders use two-digit numbers from Day01 to Day24, so the GitHub file browse
 | Day 22 | [Day22](./Day22) | Production safety notes: memory, guardrails, prompt injection, LLM evaluation |
 | Day 23 | [Day23](./Day23) | General knowledge answer evaluator: Mistral answers, Groq scores the answer (Streamlit) |
 | Day 24 | [Day24](./Day24) | Cinema support agent: router sends each question to a booking or snacks specialist |
+| Day 25 | [Day25](./Day25) | Hotel concierge: router sends each question to room service, reservations, or general |
 
 Every day folder runs on its own. Put a `.env` file inside the folder with the keys that day needs (`MISTRAL_API_KEY`, plus `GROQ_API_KEY` for Day23) before running a script. The `.env` files stay out of git.
 
