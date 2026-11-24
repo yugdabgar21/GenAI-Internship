@@ -41,6 +41,7 @@ Day folders use two-digit numbers from Day01 onward, so the GitHub file browser 
 | Day 27 | [Day27](./Day27) | Streamlit support dashboard: chat memory, routed labels, tool calls, model dropdown |
 | Day 28 | [Day28](./Day28) | Hotel Guest Assistant core hub: router, moderation, room service, reservations, facilities, FAQ |
 | Day 29 | [Day29](./Day29) | Hotel Guest Assistant knowledge build: handbook RAG, web search, concierge, marketing, sentiment, summary, quiz |
+| Day 30 | [Day30](./Day30) | Hotel Guest Assistant final build: bill loop, masking, confirmation, Groq judge, CV screener, dashboard, handoff, unit tests |
 
 Every day folder runs on its own. Put a `.env` file inside the folder with the keys that day needs (`MISTRAL_API_KEY`, plus `GROQ_API_KEY` for Day23, and `TAVILY_API_KEY` for Day29 when the fallback is used) before running a script. The `.env` files stay out of git.
 
