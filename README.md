@@ -8,7 +8,7 @@ I started with basic model calls and moved to prompt design for daily use cases.
 
 ## Navigate the days
 
-Day folders use two-digit numbers from Day01 to Day26, so the GitHub file browser keeps them in order.
+Day folders use two-digit numbers from Day01 onward, so the GitHub file browser keeps them in order.
 
 | Day | Folder | Work |
 | --- | --- | --- |
@@ -39,8 +39,10 @@ Day folders use two-digit numbers from Day01 to Day26, so the GitHub file browse
 | Day 25 | [Day25](./Day25) | Hotel concierge: router sends each question to room service, reservations, or general |
 | Day 26 | [Day26](./Day26) | Bank account specialist: router label plus a tool loop, card confirmation, and PII masking |
 | Day 27 | [Day27](./Day27) | Streamlit support dashboard: chat memory, routed labels, tool calls, model dropdown |
+| Day 28 | [Day28](./Day28) | Hotel Guest Assistant core hub: router, moderation, room service, reservations, facilities, FAQ |
+| Day 29 | [Day29](./Day29) | Hotel Guest Assistant knowledge build: handbook RAG, web search, concierge, marketing, sentiment, summary, quiz |
 
-Every day folder runs on its own. Put a `.env` file inside the folder with the keys that day needs (`MISTRAL_API_KEY`, plus `GROQ_API_KEY` for Day23) before running a script. The `.env` files stay out of git.
+Every day folder runs on its own. Put a `.env` file inside the folder with the keys that day needs (`MISTRAL_API_KEY`, plus `GROQ_API_KEY` for Day23, and `TAVILY_API_KEY` for Day29 when the fallback is used) before running a script. The `.env` files stay out of git.
 
 ## Skills I used
 
